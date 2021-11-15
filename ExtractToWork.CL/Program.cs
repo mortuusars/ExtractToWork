@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -16,6 +17,10 @@ namespace ExtractToWork.CL
 
         static Program()
         {
+            Console.WriteLine("ExtractToWork | args:");
+            args.ToList().ForEach(x => Console.WriteLine(x));
+            Console.WriteLine();
+
             Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
             Config = Config.Read(CFG_PATH);
