@@ -1,0 +1,150 @@
+﻿<UserControl x:Class="ExtractToWork.WPF.Views.SelectView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ExtractToWork.WPF.Views"
+             xmlns:vm="clr-namespace:ExtractToWork.WPF.ViewModels"
+             xmlns:pure="http://mortuusars.github.io/pureui"
+             Foreground="{StaticResource Foreground.Main}"
+             Background="Transparent"
+             FontSize="15"
+             mc:Ignorable="d"
+             d:DesignWidth="500"
+             d:DesignHeight="600"
+             d:DataContext="{d:DesignInstance vm:SelectViewModel}">
+
+    <UserControl.Resources>
+
+        <pure:BindingProxy x:Key="SelectViewModelProxy" Data="{Binding}" />
+
+        <!--<Style x:Key="CustomListBoxItem" TargetType="ListBoxItem">
+            <
+        </Style>-->
+
+        <DataTemplate x:Key="SelectedArchiveFileInfo">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Name}"
+                           HorizontalAlignment="Left"
+                           Foreground="{StaticResource Foreground.Main}" />
+                <Button Content="{pure:SegoeIconMarkup Glyph=ChromeClose,
+                                                       Size=12}"
+                        Grid.Column="1"
+                        Style="{StaticResource OpacityButton}"
+                        Foreground="{StaticResource Foreground.Main}"
+                        Command="{Binding Data.RemoveSelectedArchiveCommand, Source={StaticResource SelectViewModelProxy}}"
+                        CommandParameter="{Binding}" />
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="160" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Button x:Name="SettingsButton"
+                Content="{pure:SegoeIconMarkup Glyph=Setting,
+                                               Size=18}"
+                Style="{StaticResource OpacityButton}"
+                Background="{StaticResource Background.Closer}"
+                Padding="6"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                Click="SettingsButton_Click" />
+
+        <Image Source="/Resources/box.png"
+               Width="100"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Center" />
+
+        <pure:StackLayout Grid.Row="1" Spacing="10">
+
+            <Border Padding="6"
+                    Margin="30 0 30 20"
+                    CornerRadius="5"
+                    Background="Transparent"
+                    Visibility="{Binding SelectedArchives.Count, Converter={pure:ValueToVisibilityConverter Value=0, VisibilityEqual=Collapsed, VisibilityNotEqual=Visible}}">
+                <ListBox ItemsSource="{Binding SelectedArchives}"
+                         ItemTemplate="{StaticResource SelectedArchiveFileInfo}"
+                         MaxHeight="300"
+                         Background="Transparent"
+                         BorderThickness="0">
+
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border x:Name="Border" HorizontalAlignment="Stretch"
+                                                Background="{StaticResource Background.Closer}"
+                                                CornerRadius="4"
+                                                Margin="0 2">
+                                            <ContentPresenter Margin="4 2" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" TargetName="Border" Value="{StaticResource Background.Close}"/>
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" TargetName="Border" Value="{StaticResource Brushes.Accent.Background.0}"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+
+                </ListBox>
+            </Border>
+
+            <Grid>
+                <Button Foreground="{StaticResource Foreground.Main}"
+                        Background="{StaticResource Brushes.Accent.Background.0}"
+                        Padding="10 5"
+                        Command="{Binding SelectArchivesCommand}">
+                    <Button.Content>
+                        <pure:StackLayout Orientation="Horizontal" Spacing="8">
+                            <pure:MaterialIcon Glyph="File_copy" />
+                            <TextBlock Text="Select Archives" />
+                        </pure:StackLayout>
+                    </Button.Content>
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource OpacityButton}">
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SelectedArchives.Count}" Value="0">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button Foreground="{StaticResource Foreground.Main}"
+                        Style="{StaticResource OpacityButton}"
+                        Background="{StaticResource Brushes.Accent.Background.0}"
+                        Padding="10 5"
+                        HorizontalAlignment="Right"
+                        Command="{Binding ExtractCommand}"
+                        Visibility="{Binding SelectedArchives.Count, Converter={pure:ValueToVisibilityConverter Value=0, VisibilityEqual=Collapsed, VisibilityNotEqual=Visible}}">
+                    <Button.Content>
+                        <pure:StackLayout Orientation="Horizontal" Spacing="8">
+                            <!--<pureui:MaterialIcon Glyph="Run_circle"/>-->
+                            <TextBlock Text="EXTRACT" />
+                        </pure:StackLayout>
+                    </Button.Content>
+                </Button>
+            </Grid>
+
+        </pure:StackLayout>
+
+    </Grid>
+</UserControl>

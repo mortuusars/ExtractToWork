@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\box.png" />
+    <None Remove="Resources\Lexend-Regular.ttf" />
+    <None Remove="Resources\system.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AsyncAwaitBestPractices" Version="6.0.4" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0-preview3" />
+    <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
+    <PackageReference Include="PureConfig" Version="1.0.0" />
+    <PackageReference Include="PureLib" Version="1.1.3" />
+    <PackageReference Include="PureUI" Version="1.0.20" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ExtractToWork.Core\ExtractToWork.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\box.png" />
+    <Resource Include="Resources\Lexend-Regular.ttf" />
+    <Resource Include="Resources\system.png" />
+  </ItemGroup>
+
+</Project>

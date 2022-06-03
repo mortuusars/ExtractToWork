@@ -65,6 +65,9 @@ namespace ExtractToWork.Core
 
             foreach (var file in zipArchive.Entries)
             {
+                if (file.Name.Length == 0)
+                    continue;
+
                 await ExtractSingleFile(file);
                 NotifyInfo(zipArchive, file);
             }
@@ -84,10 +87,6 @@ namespace ExtractToWork.Core
 
             catch (Exception)
             {
-                //Console.WriteLine("ERROR --------------------------------");
-                //Console.WriteLine(ex.Message);
-                //Console.WriteLine(file.Name);
-                //Console.WriteLine(file.FullName);
                 if (file.Length > 0)
                     _erroredFiles.Add(file.Name);
             }
